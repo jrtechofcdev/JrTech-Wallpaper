@@ -233,7 +233,7 @@
         els.hint.hidden = false;
         els.hint.textContent = s.linkSeen
           ? 'Aguardando o tempo da música vindo do navegador...'
-          : `${s.app || 'Este navegador'} não passa o tempo da música ao Windows. Instale a extensão JrTech Media Link (pasta extension) para ver e arrastar a barra.`;
+          : `${s.app || 'Este navegador'} não passa o tempo da música ao Windows. Instale a extensão JrTech Media Link (pasta browser-extension do projeto) para ver e arrastar a barra.`;
       } else {
         els.hint.hidden = true;
       }
@@ -256,7 +256,7 @@
         [livelyTrack.Artist || livelyTrack.AlbumArtist || livelyTrack.Subtitle, livelyTrack.AlbumTitle].filter(Boolean).join(' · '));
       setCover(livelyTrack.Thumbnail ? livelyThumb(livelyTrack) : '');
       els.hint.hidden = false;
-      els.hint.textContent = 'Para controlar a música por aqui, rode o instalar.cmd da pasta helper do wallpaper (JrTech Media Bridge).';
+      els.hint.textContent = 'Para controlar a música por aqui, instale o JrTech Media Bridge (media-bridge/instalar.cmd no projeto).';
       return;
     }
 

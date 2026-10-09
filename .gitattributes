@@ -1,0 +1,11 @@
+# Texto com quebra de linha normalizada no repositório
+* text=auto
+
+# Scripts do Windows sempre com CRLF
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+
+# Binários
+*.png binary
+*.jpg binary
+*.woff2 binary

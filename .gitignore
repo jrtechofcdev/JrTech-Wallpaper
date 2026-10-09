@@ -1,5 +1,11 @@
-# Cópia da versão antiga (v2), só local
-_backup_v2/
-
-# Pacotes gerados para importar no Lively
+# Pacotes gerados por build.ps1 (publicados nas Releases do GitHub)
+dist/
 *.zip
+*.xpi
+
+# Cópias locais antigas
+_backup*/
+
+# Sistema
+Thumbs.db
+desktop.ini
