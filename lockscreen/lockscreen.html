@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JR_TECH_OFC Tela de Bloqueio</title>
+  <!-- Gerador da imagem estática da tela de bloqueio (1920x1080).
+       O Windows 11 desenha hora e data no centro superior e ícones no canto
+       inferior direito; essas áreas ficam livres. -->
+  <link rel="stylesheet" href="../css/tokens.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+    canvas { position: absolute; inset: 0; }
+    .logo-big {
+      position: absolute;
+      right: 120px;
+      top: 50%;
+      height: 880px;
+      margin-top: -400px;
+      opacity: 0.07;
+    }
+    .shade {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 14%, rgba(5, 7, 10, 0.85), transparent 70%),
+        linear-gradient(90deg, rgba(5, 7, 10, 0.75) 0%, transparent 55%);
+    }
+    .lockup {
+      position: absolute;
+      left: 140px;
+      top: 520px;
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .lockup img {
+      width: 150px;
+      height: 150px;
+      filter: drop-shadow(0 0 36px color-mix(in srgb, var(--brand-1) 45%, transparent));
+    }
+    .name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 92px;
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      background: var(--brand-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px color-mix(in srgb, var(--brand-1) 25%, transparent));
+    }
+    .slogan {
+      margin-top: 14px;
+      font-family: var(--font-text);
+      font-size: 32px;
+      color: var(--ink-2);
+    }
+    .rule {
+      margin-top: 26px;
+      width: 260px;
+      height: 6px;
+      background: var(--brand-grad);
+      clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="c" width="1920" height="1080"></canvas>
+  <img class="logo-big" src="../Logo_Simbolo.png" alt="">
+  <div class="shade"></div>
+  <div class="lockup">
+    <img src="../Logo_Simbolo.png" alt="Jr_Tech_OFC">
+    <div>
+      <div class="name">JR_TECH_OFC</div>
+      <div class="slogan">Nossa Arte, Seu Sucesso</div>
+      <div class="rule"></div>
+    </div>
+  </div>
+
+  <script>
+    // Mesma malha do wallpaper (brandfield.js), desenhada uma vez com peças acesas
+    // em volta do logo gigante, como se a música tivesse acabado de bater.
+    const W = 1920, H = 1080, T = 64, TAN = Math.tan(16 * Math.PI / 180);
+    const ctx = document.getElementById('c').getContext('2d');
+    const A = [0, 252, 168], B = [28, 218, 255];
+    let seed = 20240917;
+    const rand = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+    const gap = T * 0.12, cols = Math.ceil((W + H * TAN) / T) + 2, rows = Math.ceil(H / T) + 1;
+    const used = new Uint8Array(cols * rows);
+    const focus = { x: 1500, y: 540 };
+
+    function tile(c, r, span) {
+      const x = c * T - r * T * TAN - T, y = r * T, w = span * T - gap, h = span * T - gap, k = h * TAN;
+      const cx = x + w / 2 + k / 2, cy = y + h / 2;
+      if (cx < -T * 2 || cx > W + T * 2) return;
+      const t = Math.min(1, Math.max(0, (cx / W) * 0.55 + (cy / H) * 0.45));
+      const rgb = A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(',');
+      // Brilho: anel ao redor do foco + faísca aleatória
+      const d = Math.hypot(cx - focus.x, cy - focus.y);
+      let e = Math.max(0, 1 - Math.abs(d - 330) / 120) * 0.55 + Math.max(0, 1 - d / 700) * 0.25;
+      if (rand() < 0.04) e = Math.max(e, 0.35);
+      ctx.beginPath();
+      ctx.moveTo(x + k, y); ctx.lineTo(x + k + w, y); ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.closePath();
+      ctx.fillStyle = `rgba(${rgb},${(0.012 + e * 0.28).toFixed(3)})`;
+      ctx.fill();
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = `rgba(${rgb},${Math.min(1, 0.065 + e * 0.85).toFixed(3)})`;
+      ctx.stroke();
+    }
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (used[r * cols + c]) continue;
+        const canBig = c + 1 < cols && r + 1 < rows && !used[r * cols + c + 1] && !used[(r + 1) * cols + c] && !used[(r + 1) * cols + c + 1];
+        if (canBig && rand() < 0.07) {
+          used[r * cols + c] = used[r * cols + c + 1] = used[(r + 1) * cols + c] = used[(r + 1) * cols + c + 1] = 1;
+          tile(c, r, 2);
+        } else {
+          used[r * cols + c] = 1;
+          tile(c, r, 1);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "JrTech Media Link",
+  "version": "1.0.0",
+  "description": "Liga o player do navegador ao wallpaper JR_TECH_OFC: mostra o tempo da música e permite arrastar a barra de progresso.",
+  "icons": { "128": "icon128.png" },
+  "host_permissions": ["http://127.0.0.1/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

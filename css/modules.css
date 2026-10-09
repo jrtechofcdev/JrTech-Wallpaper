@@ -1,0 +1,804 @@
+/* ================= MARCA ================= */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Glow 1/2 (R-13): o símbolo respira com os graves do áudio (--pulse) */
+.brand-mark {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 calc((6px + 22px * var(--pulse)) * var(--glow)) color-mix(in srgb, var(--brand-1) 55%, transparent));
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 23px;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+}
+
+.brand-slogan {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+/* ================= RELÓGIO ================= */
+.clock-group {
+  margin-block: auto;
+  padding-bottom: 24px;
+}
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Glow 2/2 (R-13) e um dos três usos do gradiente da marca */
+.clock-time {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 196px;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  background: var(--brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 calc(34px * var(--glow)) color-mix(in srgb, var(--brand-1) 30%, transparent));
+  transition: filter 400ms var(--ease-out);
+  padding: 0 4px 6px 0;
+}
+
+.clock-time:hover {
+  filter: drop-shadow(0 0 calc(54px * var(--glow)) color-mix(in srgb, var(--brand-2) 45%, transparent));
+}
+
+.clock-hm {
+  display: inline-block;
+}
+
+.clock-colon {
+  display: inline-block;
+  margin: 0 0.02em;
+  transform: translateY(-0.06em);
+}
+
+.clock-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-left: 18px;
+  margin-bottom: 14px;
+}
+
+.clock-ampm,
+.clock-sec {
+  -webkit-text-fill-color: var(--ink-3);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.clock-ampm { font-size: 22px; }
+.clock-ampm:empty { display: none; }
+.clock-sec { font-size: 52px; line-height: 0.9; -webkit-text-fill-color: var(--ink-2); }
+
+.clock-date {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 20px;
+  padding-left: 6px;
+}
+
+.clock-weekday {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 34px;
+  color: var(--ink);
+}
+
+.clock-day {
+  font-size: 22px;
+  color: var(--ink-2);
+}
+
+/* ================= VISUALIZADOR ================= */
+.viz {
+  width: 640px;
+  height: 84px;
+  margin-top: 30px;
+  margin-left: 6px;
+}
+
+#viz-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ================= MÚSICA ================= */
+.media {
+  --media-accent: var(--brand-1);
+  width: 560px;
+  pointer-events: auto;
+  animation-name: enter;
+  padding: 18px 22px 16px 18px;
+}
+
+/* Fio de cor no topo: a cor vem da capa da música */
+.media::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: var(--cut);
+  top: 0;
+  width: 120px;
+  height: 2px;
+  background: var(--media-accent);
+  transition: background 800ms ease;
+}
+
+.media-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.media-cover-wrap {
+  flex: none;
+  width: 92px;
+  height: 92px;
+  clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+  background: rgba(238, 243, 245, 0.06) url('../Logo_Simbolo.png') center / 46% no-repeat;
+}
+
+.media-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.media-cover:not([src]),
+.media-cover[src=''] { visibility: hidden; }
+
+.media-info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.media-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--media-accent);
+  transition: color 800ms ease;
+}
+
+.media-title-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.media-title-wrap.overflowing {
+  -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, #000 88%, transparent);
+}
+
+.media-title {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 23px;
+  color: var(--ink);
+}
+
+/* Título longo desliza para mostrar o nome inteiro */
+.media-title.marquee {
+  animation: marquee var(--marquee-dur, 10s) ease-in-out infinite alternate;
+}
+
+@keyframes marquee {
+  0%, 15% { transform: translateX(0); }
+  85%, 100% { transform: translateX(var(--marquee-shift, 0px)); }
+}
+
+.media-artist {
+  font-size: 16px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ----- linha do tempo ----- */
+.media-seek {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.media-seek.disabled .slider { pointer-events: none; opacity: 0.45; }
+
+.media-time {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.media-time:last-child { text-align: right; }
+
+/* ----- slider (tempo e volume) ----- */
+.slider {
+  --p: 0%;
+  position: relative;
+  height: 22px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 5px;
+  margin-top: -2.5px;
+  background: var(--line-strong);
+  clip-path: polygon(2px 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
+}
+
+.slider-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 5px;
+  margin-top: -2.5px;
+  width: var(--p);
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+  clip-path: polygon(2px 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
+}
+
+/* Marcador em paralelogramo, no ângulo do logo */
+.slider-thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--p);
+  width: 11px;
+  height: 18px;
+  margin: -9px 0 0 -5.5px;
+  background: var(--ink);
+  clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%);
+  transform: scale(0.75);
+  transition: transform 160ms var(--ease-out);
+}
+
+.slider:hover .slider-thumb,
+.slider:focus-visible .slider-thumb,
+.slider.dragging .slider-thumb { transform: scale(1); }
+
+.slider:hover::before { background: rgba(238, 243, 245, 0.28); }
+
+/* ----- botões ----- */
+.media-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.mc {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-ctl);
+  color: var(--ink-2);
+  transition: color 160ms, background 160ms, transform 120ms;
+}
+
+.mc svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mc svg .fill { fill: currentColor; }
+
+.mc:hover { color: var(--ink); background: rgba(238, 243, 245, 0.07); }
+.mc:active { transform: scale(0.92); }
+.mc:disabled { opacity: 0.3; pointer-events: none; }
+
+/* Play/pause: o elemento ativo do player, em paralelogramo com o gradiente */
+.mc-main {
+  width: 58px;
+  height: 46px;
+  color: var(--bg);
+  background: var(--brand-grad);
+  border-radius: 0;
+  clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+}
+
+.mc-main:hover { color: var(--bg); background: var(--brand-grad); filter: brightness(1.12); }
+.mc-main svg { width: 24px; height: 24px; }
+.mc-main .i-pause { display: none; }
+.mc-main.playing .i-play { display: none; }
+.mc-main.playing .i-pause { display: block; }
+
+.media-vol {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 210px;
+}
+
+.mc-small { width: 34px; height: 34px; }
+.mc-small svg { width: 20px; height: 20px; }
+.mc-small .i-x { display: none; }
+.mc-small.muted .i-wave { display: none; }
+.mc-small.muted .i-x { display: block; }
+
+.slider-vol { flex: 1; }
+
+.media-vol-val { width: 38px; text-align: right; }
+
+.media-hint {
+  margin-top: 10px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+
+/* Sem o Media Bridge: só informação, sem controles mortos (R-26) */
+.media.info-only .media-seek,
+.media.info-only .media-ctrls { display: none; }
+
+/* ================= CLIMA ================= */
+.weather {
+  padding: 16px 22px 14px;
+}
+
+.weather-main {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.weather-icon svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.weather-icon .accent { stroke: var(--brand-1); }
+
+.weather-now {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-temp {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.weather-cond {
+  font-size: 14px;
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+
+.weather-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  text-align: right;
+}
+
+.weather-place {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.weather-range {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.weather-hours {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.wh {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.wh-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.wh svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wh svg .accent { stroke: var(--brand-1); }
+
+.wh-temp {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.weather-status {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.weather-main:not([hidden]) ~ .weather-status {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.weather-status:empty { display: none; }
+
+/* ================= SISTEMA ================= */
+.hw {
+  pointer-events: auto;
+  padding: 16px 22px 8px;
+}
+
+.hw-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+}
+
+.battery {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.battery-icon {
+  width: 26px;
+  height: 14px;
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.3;
+}
+
+.battery-cap { fill: var(--ink-2); stroke: none; }
+.battery-fill { fill: var(--brand-1); stroke: none; transition: width 800ms var(--ease-out); }
+.battery.low .battery-fill { fill: var(--crit); }
+.battery-bolt { fill: var(--bg); stroke: none; display: none; }
+.battery.charging .battery-bolt { display: block; }
+
+.battery-val {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.hw-row {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.hw-row:first-of-type { border-top: 0; }
+
+.hw-line {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.hw-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+}
+
+.hw-temp,
+.hw-sub {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.hw-temp { flex: 0 0 auto; }
+.hw-line .hw-temp + .hw-val { margin-left: auto; }
+
+.hw-val {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.hw-big .hw-val { font-size: 30px; line-height: 1; }
+.hw-small .hw-val { font-size: 22px; line-height: 1; }
+
+.hw-val small {
+  font-size: 0.5em;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-left: 2px;
+}
+
+.hw-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  margin: 3px 0 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hw-name:empty { display: none; }
+
+.hw-small .bar { margin-top: 9px; }
+
+/* Barra em segmentos inclinados, no ângulo do logo.
+   O preenchimento ocupa a barra toda e é recortado (clip-path), assim os
+   segmentos da trilha e do preenchimento ficam sempre alinhados. */
+.bar {
+  position: relative;
+  height: 9px;
+  --stripes: repeating-linear-gradient(106deg, #000 0 7px, transparent 7px 10px);
+  background: var(--line-strong);
+  -webkit-mask-image: var(--stripes);
+  mask-image: var(--stripes);
+}
+
+.bar-fill {
+  position: absolute;
+  inset: 0;
+  --p: 0%;
+  background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+  clip-path: inset(0 calc(100% - var(--p)) 0 0);
+}
+
+.bar-fill.warn { background: var(--warn); }
+.bar-fill.crit { background: var(--crit); }
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin-top: 7px;
+}
+
+.spark-net { height: 26px; margin-top: 4px; }
+
+/* Passar o mouse mostra mínimo, máximo e média do último minuto */
+.hw-stats {
+  max-height: 0;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+  transition: max-height 350ms var(--ease-out), margin-top 350ms var(--ease-out);
+}
+
+.hw-row:hover .hw-stats {
+  max-height: 22px;
+  margin-top: 6px;
+}
+
+.hw-row:hover .hw-name {
+  white-space: normal;
+}
+
+.hw-note {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.net-pair {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+.net-item {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.net-item small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.net-item svg {
+  width: 11px;
+  height: 11px;
+  align-self: center;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.net-down svg { stroke: var(--brand-2); }
+.net-up svg { stroke: var(--brand-1); }
+
+/* ================= CALENDÁRIO ================= */
+.cal {
+  pointer-events: auto;
+  padding: 14px 20px 12px;
+}
+
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cal-nav {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-ctl);
+  color: var(--ink-2);
+  transition: border-color 200ms, color 200ms, background 200ms;
+}
+
+.cal-nav svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cal-nav:hover {
+  border-color: color-mix(in srgb, var(--brand-2) 60%, transparent);
+  color: var(--brand-1);
+  background: color-mix(in srgb, var(--brand-1) 8%, transparent);
+}
+
+.cal-nav:active { transform: scale(0.94); }
+
+.cal-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  padding: 4px 10px;
+  border-radius: var(--radius-ctl);
+  transition: background 200ms;
+}
+
+.cal-title:hover { background: rgba(238, 243, 245, 0.06); }
+
+.cal-year { color: var(--ink-3); font-weight: 500; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 1px;
+  text-align: center;
+}
+
+.cal-grid.from-next { animation: calNext 280ms var(--ease-out); }
+.cal-grid.from-prev { animation: calPrev 280ms var(--ease-out); }
+
+@keyframes calNext { from { opacity: 0; transform: translateX(14px); } }
+@keyframes calPrev { from { opacity: 0; transform: translateX(-14px); } }
+
+.cal-wd {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-3);
+  padding: 2px 0 5px;
+}
+
+.cal-d {
+  position: relative;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+}
+
+.cal-d.past { color: var(--ink-3); }
+
+/* Hoje: um paralelogramo da marca (o "elemento ativo" que usa o gradiente) */
+.cal-d.today {
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.cal-d.today::before {
+  content: '';
+  position: absolute;
+  inset: 1px 3px;
+  z-index: -1;
+  background: var(--brand-grad);
+  clip-path: polygon(16% 0, 100% 0, 84% 100%, 0 100%);
+}
+
+.cal-d.today { z-index: 0; isolation: isolate; }

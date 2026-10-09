@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JR_TECH_OFC Dashboard</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/modules.css">
+</head>
+
+<body>
+
+  <canvas id="bg"></canvas>
+  <img id="bg-logo" src="Logo_Simbolo.png" alt="" aria-hidden="true">
+  <div class="shade"></div>
+
+  <main id="stage">
+
+    <!-- ===== Coluna esquerda: tempo e mídia ===== -->
+    <section class="col-left">
+
+      <header class="brand enter" id="mod-logo" style="--i:0">
+        <img class="brand-mark" src="Logo_Simbolo.png" alt="Jr_Tech_OFC">
+        <div class="brand-text">
+          <span class="brand-name">JR_TECH_OFC</span>
+          <span class="brand-slogan">Nossa Arte, Seu Sucesso</span>
+        </div>
+      </header>
+
+      <div class="clock-group">
+        <div class="clock enter" id="mod-clock" style="--i:1">
+          <button class="clock-time interactive" id="clock-toggle" title="Clique para alternar entre 12h e 24h">
+            <span class="clock-hm" id="clock-hours">00</span><span class="clock-colon" id="clock-colon">:</span><span class="clock-hm" id="clock-minutes">00</span>
+            <span class="clock-side">
+              <span class="clock-ampm" id="clock-ampm"></span>
+              <span class="clock-sec" id="clock-seconds">00</span>
+            </span>
+          </button>
+          <div class="clock-date">
+            <span class="clock-weekday" id="clock-weekday"></span>
+            <span class="clock-day" id="clock-day"></span>
+          </div>
+        </div>
+
+        <div class="viz enter" id="mod-audio" style="--i:2">
+          <canvas id="viz-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Player: aparece quando há música; os controles usam o JrTech Media Bridge -->
+      <article class="media panel glass enter" id="mod-media" style="--i:3" hidden>
+        <div class="media-top">
+          <div class="media-cover-wrap">
+            <img class="media-cover" id="media-cover" alt="">
+          </div>
+          <div class="media-info">
+            <span class="media-label" id="media-label">Tocando agora</span>
+            <div class="media-title-wrap" id="media-title-wrap">
+              <span class="media-title" id="media-title"></span>
+            </div>
+            <span class="media-artist" id="media-artist"></span>
+          </div>
+        </div>
+
+        <div class="media-seek" id="media-seek-row">
+          <span class="media-time" id="media-pos">0:00</span>
+          <div class="slider" id="media-seek" role="slider" tabindex="0" aria-label="Posição da música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="slider-fill"></div>
+            <div class="slider-thumb"></div>
+          </div>
+          <span class="media-time" id="media-dur">0:00</span>
+        </div>
+
+        <div class="media-ctrls" id="media-ctrls">
+          <button class="mc" id="mc-prev" title="Música anterior" aria-label="Música anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M8.5 6v12" /><path class="fill" d="M19 6.5v11L10.5 12z" /></svg>
+          </button>
+          <button class="mc mc-main" id="mc-play" title="Tocar ou pausar" aria-label="Tocar ou pausar">
+            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M8 5.5v13L18.5 12z" /></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M7.5 5.5h3.2v13H7.5zM13.3 5.5h3.2v13h-3.2z" /></svg>
+          </button>
+          <button class="mc" id="mc-next" title="Próxima música" aria-label="Próxima música">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M15.5 6v12" /><path class="fill" d="M5 6.5v11l8.5-5.5z" /></svg>
+          </button>
+
+          <div class="media-vol">
+            <button class="mc mc-small" id="mc-mute" title="Silenciar" aria-label="Silenciar">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path class="fill" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+                <path class="i-wave" d="M15 9.2a4 4 0 0 1 0 5.6M17.6 6.8a7.5 7.5 0 0 1 0 10.4" />
+                <path class="i-x" d="M15.5 9.5l5 5M20.5 9.5l-5 5" />
+              </svg>
+            </button>
+            <div class="slider slider-vol" id="media-vol" role="slider" tabindex="0" aria-label="Volume do Windows" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="slider-fill"></div>
+              <div class="slider-thumb"></div>
+            </div>
+            <span class="media-time media-vol-val" id="media-vol-val">0%</span>
+          </div>
+        </div>
+
+        <p class="media-hint" id="media-hint" hidden></p>
+      </article>
+    </section>
+
+    <!-- ===== Coluna direita: dados ===== -->
+    <aside class="col-right">
+
+      <article class="weather panel enter" id="mod-weather" style="--i:2">
+        <div class="weather-main" id="weather-main" hidden>
+          <div class="weather-icon" id="weather-icon"></div>
+          <div class="weather-now">
+            <span class="weather-temp" id="weather-temp"></span>
+            <span class="weather-cond" id="weather-cond"></span>
+          </div>
+          <div class="weather-meta">
+            <span class="weather-place" id="weather-place"></span>
+            <span class="weather-range" id="weather-range"></span>
+          </div>
+        </div>
+        <div class="weather-hours" id="weather-hours" hidden></div>
+        <p class="weather-status" id="weather-status">Carregando o clima...</p>
+      </article>
+
+      <article class="hw panel glass enter" id="mod-hardware" style="--i:3">
+        <div class="hw-head">
+          <span class="panel-title">Sistema</span>
+          <span class="battery" id="battery" hidden>
+            <svg class="battery-icon" viewBox="0 0 26 14" aria-hidden="true">
+              <rect x="0.75" y="0.75" width="21.5" height="12.5" rx="2" />
+              <rect class="battery-cap" x="23" y="4.5" width="2.5" height="5" rx="1" />
+              <rect class="battery-fill" id="battery-fill" x="2.5" y="2.5" width="18" height="9" rx="1" />
+              <path class="battery-bolt" id="battery-bolt" d="M12.5 2.5 8.5 7.5h3l-1 4 4-5h-3z" />
+            </svg>
+            <span class="battery-val" id="battery-val"></span>
+          </span>
+        </div>
+
+        <div class="hw-row hw-big" id="row-cpu">
+          <div class="hw-line">
+            <span class="hw-label">CPU</span>
+            <span class="hw-temp" id="cpu-temp" hidden></span>
+            <span class="hw-val"><span id="cpu-val">n/d</span><small>%</small></span>
+          </div>
+          <div class="hw-name" id="cpu-name">Aguardando dados do Lively</div>
+          <div class="bar"><div class="bar-fill" id="cpu-bar"></div></div>
+          <canvas class="spark" id="cpu-spark"></canvas>
+          <div class="hw-stats" id="cpu-stats"></div>
+        </div>
+
+        <div class="hw-row hw-big" id="row-gpu">
+          <div class="hw-line">
+            <span class="hw-label">GPU</span>
+            <span class="hw-temp" id="gpu-temp" hidden></span>
+            <span class="hw-val"><span id="gpu-val">n/d</span><small>%</small></span>
+          </div>
+          <div class="hw-name" id="gpu-name">Aguardando dados do Lively</div>
+          <div class="bar"><div class="bar-fill" id="gpu-bar"></div></div>
+          <canvas class="spark" id="gpu-spark"></canvas>
+          <div class="hw-stats" id="gpu-stats"></div>
+        </div>
+
+        <div class="hw-row hw-small" id="row-ram">
+          <div class="hw-line">
+            <span class="hw-label">Memória</span>
+            <span class="hw-sub" id="ram-detail"></span>
+            <span class="hw-val"><span id="ram-val">n/d</span><small>%</small></span>
+          </div>
+          <div class="bar"><div class="bar-fill" id="ram-bar"></div></div>
+          <div class="hw-stats" id="ram-stats"></div>
+        </div>
+
+        <div class="hw-row hw-small" id="row-net">
+          <div class="hw-line">
+            <span class="hw-label">Rede</span>
+            <span class="net-pair">
+              <span class="net-item net-down" title="Download">
+                <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M2 5.5l3 3 3-3" /></svg>
+                <span id="net-down">n/d</span><small id="net-down-u"></small>
+              </span>
+              <span class="net-item net-up" title="Upload">
+                <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 8.5v-7M2 4.5l3-3 3 3" /></svg>
+                <span id="net-up">n/d</span><small id="net-up-u"></small>
+              </span>
+            </span>
+          </div>
+          <div class="hw-name" id="net-name"></div>
+          <canvas class="spark spark-net" id="net-spark"></canvas>
+          <div class="hw-stats" id="net-stats"></div>
+        </div>
+
+        <div class="hw-row hw-small" id="row-disk" hidden>
+          <div class="hw-line">
+            <span class="hw-label">Disco C:</span>
+            <span class="hw-sub" id="disk-detail"></span>
+            <span class="hw-val"><span id="disk-val">n/d</span><small>%</small></span>
+          </div>
+          <div class="bar"><div class="bar-fill" id="disk-bar"></div></div>
+          <div class="hw-note">Valor manual, definido no painel do Lively</div>
+        </div>
+      </article>
+
+
+      <article class="cal panel enter" id="mod-calendar" style="--i:4">
+        <div class="cal-head">
+          <button class="cal-nav interactive" id="cal-prev" title="Mês anterior" aria-label="Mês anterior">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5" /></svg>
+          </button>
+          <button class="cal-title interactive" id="cal-title" title="Voltar para hoje">
+            <span id="cal-month"></span> <span class="cal-year" id="cal-year"></span>
+          </button>
+          <button class="cal-nav interactive" id="cal-next" title="Próximo mês" aria-label="Próximo mês">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5" /></svg>
+          </button>
+        </div>
+        <div class="cal-grid interactive" id="cal-grid"></div>
+      </article>
+    </aside>
+  </main>
+
+  <div id="preview-badge" hidden>Modo prévia: dados simulados. Dentro do Lively, os dados reais do seu PC entram no lugar.</div>
+
+  <script src="js/core.js"></script>
+  <script src="js/modules/brandfield.js"></script>
+  <script src="js/modules/clock.js"></script>
+  <script src="js/modules/calendar.js"></script>
+  <script src="js/modules/hardware.js"></script>
+  <script src="js/modules/media.js"></script>
+  <script src="js/modules/audio.js"></script>
+  <script src="js/modules/weather.js"></script>
+  <script src="js/lively-bridge.js"></script>
+</body>
+
+</html>

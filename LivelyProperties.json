@@ -1,0 +1,151 @@
+{
+  "labelModules": {
+    "type": "label",
+    "value": "Módulos"
+  },
+  "showLogo": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Logo e nome da marca"
+  },
+  "showClock": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Relógio e data"
+  },
+  "showAudio": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Visualizador de áudio"
+  },
+  "showMedia": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Música tocando agora"
+  },
+  "showWeather": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Clima"
+  },
+  "showHardware": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Sistema (CPU, GPU, memória, rede)"
+  },
+  "showCalendar": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Calendário"
+  },
+  "labelClock": {
+    "type": "label",
+    "value": "Relógio"
+  },
+  "use24h": {
+    "type": "checkbox",
+    "value": false,
+    "text": "Formato 24 horas"
+  },
+  "showSeconds": {
+    "type": "checkbox",
+    "value": true,
+    "text": "Mostrar segundos"
+  },
+  "labelWeather": {
+    "type": "label",
+    "value": "Clima"
+  },
+  "weatherCity": {
+    "type": "textbox",
+    "value": "",
+    "text": "Cidade (ex.: Belo Horizonte)"
+  },
+  "weatherUnit": {
+    "type": "dropdown",
+    "value": 0,
+    "text": "Unidade",
+    "items": ["Celsius (°C)", "Fahrenheit (°F)"]
+  },
+  "labelBackground": {
+    "type": "label",
+    "value": "Fundo"
+  },
+  "bgStyle": {
+    "type": "dropdown",
+    "value": 0,
+    "text": "Estilo do fundo",
+    "items": ["Malha da marca (interativa)", "Partículas", "Liso"]
+  },
+  "bgTileSize": {
+    "type": "slider",
+    "value": 64,
+    "min": 40,
+    "max": 120,
+    "step": 4,
+    "text": "Tamanho das peças da malha"
+  },
+  "labelAppearance": {
+    "type": "label",
+    "value": "Aparência"
+  },
+  "accentColor1": {
+    "type": "color",
+    "value": "#00FCA8",
+    "text": "Cor primária"
+  },
+  "accentColor2": {
+    "type": "color",
+    "value": "#1CDAFF",
+    "text": "Cor secundária"
+  },
+  "glowIntensity": {
+    "type": "slider",
+    "value": 60,
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "text": "Brilho do relógio e do logo"
+  },
+  "cardOpacity": {
+    "type": "slider",
+    "value": 55,
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "text": "Opacidade dos painéis (%)"
+  },
+  "uiScale": {
+    "type": "slider",
+    "value": 100,
+    "min": 70,
+    "max": 130,
+    "step": 5,
+    "text": "Escala da interface (%)"
+  },
+  "fpsLimit": {
+    "type": "dropdown",
+    "value": 1,
+    "text": "Limite de FPS",
+    "items": ["30 fps (mais leve)", "60 fps", "Sem limite"]
+  },
+  "labelDisk": {
+    "type": "label",
+    "value": "Disco (o Lively não informa, preencha à mão)"
+  },
+  "showDisk": {
+    "type": "checkbox",
+    "value": false,
+    "text": "Mostrar disco C:"
+  },
+  "diskUsed": {
+    "type": "textbox",
+    "value": "",
+    "text": "Usado (GB)"
+  },
+  "diskTotal": {
+    "type": "textbox",
+    "value": "",
+    "text": "Total (GB)"
+  }
+}

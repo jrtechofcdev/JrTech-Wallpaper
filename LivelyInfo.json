@@ -1,0 +1,14 @@
+{
+  "AppVersion": "2.0.0.0",
+  "Title": "JR_TECH_OFC Dashboard",
+  "Desc": "Wallpaper da marca Jr_Tech_OFC: relógio, calendário, sistema, clima, música e visualizador de áudio, sobre uma malha interativa no formato do logo. Para a malha reagir ao mouse, ative Configurações > Wallpaper > Entrada do wallpaper: Mouse.",
+  "Author": "Jr_Tech_OFC",
+  "License": "",
+  "Contact": "",
+  "Type": 1,
+  "FileName": "index.html",
+  "Preview": "preview.jpg",
+  "Thumbnail": "thumbnail.jpg",
+  "Arguments": "--system-information true --audio true --system-nowplaying true --pause-event true",
+  "IsAbsolutePath": false
+}

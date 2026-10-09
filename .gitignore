@@ -1,0 +1,5 @@
+# Cópia da versão antiga (v2), só local
+_backup_v2/
+
+# Pacotes gerados para importar no Lively
+*.zip
