@@ -5,8 +5,12 @@
   <meta charset="UTF-8">
   <title>JR_TECH_OFC Tela de Bloqueio</title>
   <!-- Gerador da imagem estática da tela de bloqueio (1920x1080).
-       O Windows 11 desenha hora e data no centro superior e ícones no canto
-       inferior direito; essas áreas ficam livres. -->
+       Áreas do Windows 11 medidas na tela real (ficam livres/escuras):
+       - bloqueio: hora/data no centro (y 18-34%), player de mídia embaixo
+         no centro, rede/bateria embaixo à direita;
+       - senha (mesma imagem desfocada): foto, nome e senha numa coluna
+         central (x 40-60%, y 25-62%), ícones embaixo à direita.
+       A marca fica empilhada à esquerda, terminando antes de x = 40%. -->
   <link rel="stylesheet" href="../css/tokens.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,36 +18,41 @@
     canvas { position: absolute; inset: 0; }
     .logo-big {
       position: absolute;
-      right: 120px;
+      right: 70px;
       top: 50%;
-      height: 880px;
-      margin-top: -400px;
+      height: 760px;
+      margin-top: -420px;
       opacity: 0.07;
     }
     .shade {
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 40% at 50% 14%, rgba(5, 7, 10, 0.85), transparent 70%),
-        linear-gradient(90deg, rgba(5, 7, 10, 0.75) 0%, transparent 55%);
+        radial-gradient(ellipse 34% 26% at 50% 26%, rgba(5, 7, 10, 0.9), transparent 75%),
+        radial-gradient(ellipse 22% 34% at 50% 44%, rgba(5, 7, 10, 0.6), transparent 80%),
+        radial-gradient(ellipse 20% 12% at 50% 96%, rgba(5, 7, 10, 0.9), transparent 80%),
+        radial-gradient(ellipse 18% 10% at 96% 96%, rgba(5, 7, 10, 0.85), transparent 80%),
+        linear-gradient(90deg, rgba(5, 7, 10, 0.75) 0%, transparent 45%);
     }
     .lockup {
       position: absolute;
-      left: 140px;
-      top: 520px;
+      left: 132px;
+      top: 50%;
+      transform: translateY(-46%);
       display: flex;
-      align-items: center;
-      gap: 36px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 34px;
     }
     .lockup img {
-      width: 150px;
-      height: 150px;
+      width: 132px;
+      height: 132px;
       filter: drop-shadow(0 0 36px color-mix(in srgb, var(--brand-1) 45%, transparent));
     }
     .name {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 92px;
+      font-size: 84px;
       line-height: 0.95;
       letter-spacing: 0.02em;
       background: var(--brand-grad);
@@ -91,7 +100,7 @@
     const rand = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
     const gap = T * 0.12, cols = Math.ceil((W + H * TAN) / T) + 2, rows = Math.ceil(H / T) + 1;
     const used = new Uint8Array(cols * rows);
-    const focus = { x: 1500, y: 540 };
+    const focus = { x: 1540, y: 470 };
 
     function tile(c, r, span) {
       const x = c * T - r * T * TAN - T, y = r * T, w = span * T - gap, h = span * T - gap, k = h * TAN;
